@@ -1,0 +1,44 @@
+        static void Show_Control_Point(Point pStart, Point pEnd, int Shape, ref OpenGL gl)
+        {
+            gl.PointSize(5);
+            if (Shape == 0)
+            {
+                gl.Color(Color.Yellow.R / 255.0, Color.Yellow.G / 255.0, Color.Yellow.B / 255.0, 0);
+                gl.Begin(OpenGL.GL_POINTS);
+                gl.Vertex(pStart.X, gl.RenderContextProvider.Height - pStart.Y);
+                gl.Vertex(pEnd.X, gl.RenderContextProvider.Height - pEnd.Y);
+                gl.End();
+                gl.Flush(); // Thực hiện lệnh vẽ ngay lập tức thay vì đợi sau 1 khoảng thời gian
+            }
+            else if(Shape == 3)
+            {
+                List<Point> Ctrl_Ponits = new List<Point>();
+                Point pTemp = new Point
+                {
+                    X = 2 * pStart.X - pEnd.X,
+                    Y = 2 * pStart.Y - pEnd.Y
+                };
+                Ctrl_Ponits.Add(pTemp);
+                pTemp.X = pStart.X;
+                Ctrl_Ponits.Add(pTemp);
+                pTemp.X = pEnd.X;
+                Ctrl_Ponits.Add(pTemp);
+                pTemp.Y = pStart.Y;
+                Ctrl_Ponits.Add(pTemp);
+                Ctrl_Ponits.Add(pEnd);
+                pTemp.X = 2 * pStart.X - pTemp.X;
+                Ctrl_Ponits.Add(pTemp);
+                pTemp.Y = pEnd.Y;
+                Ctrl_Ponits.Add(pTemp);
+                pTemp.X = pStart.X;
+                Ctrl_Ponits.Add(pTemp);
+                gl.Color(Color.Yellow.R / 255.0, Color.Yellow.G / 255.0, Color.Yellow.B / 255.0, 0);
+                gl.Begin(OpenGL.GL_POINTS);
+                for (int i = 0; i < Ctrl_Ponits.Count(); i++)
+                {
+                    gl.Vertex(Ctrl_Ponits[i].X, gl.RenderContextProvider.Height - Ctrl_Ponits[i].Y);
+                }
+                gl.End();
+                gl.Flush(); // Thực hiện lệnh vẽ ngay lập tức thay vì đợi sau 1 khoảng thời gian
+            }
+        }
